@@ -13,8 +13,16 @@ Route::get('/', function () {
         : view('welcome');
 })->name('welcome');
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard
+|--------------------------------------------------------------------------
+|
+| Redirect all authenticated users to the chat page.
+|
+*/
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('chat.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
