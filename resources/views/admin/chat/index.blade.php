@@ -6,6 +6,23 @@
 <div class="max-w-4xl mx-auto py-8 px-4">
     <h1 class="text-xl font-semibold text-gray-800 mb-6">Admin - Chat Management</h1>
 
+    @if(auth()->user()->isSuperAdmin())
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-sm font-medium text-gray-800">Global Chat Status</h2>
+                <p class="text-xs text-gray-500 mt-1">Enable or disable chat for all users</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="chatStatusText" class="text-sm font-medium text-gray-600">Loading...</span>
+                <button id="toggleChatBtn" onclick="toggleChat()" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Loading...
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b border-gray-200">
@@ -68,4 +85,61 @@
         </table>
     </div>
 </div>
+
+@if(auth()->user()->isSuperAdmin())
+<script>
+let chatEnabled = false;
+
+async function loadChatStatus() {
+    try {
+        const res = await fetch('{{ route('settings.status') }}');
+        const data = await res.json();
+        chatEnabled = data.chat_enabled;
+        updateChatUI();
+    } catch (e) {
+        console.error('Failed to load chat status:', e);
+    }
+}
+
+async function toggleChat() {
+    try {
+        const res = await fetch('{{ route('settings.toggle-chat') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        });
+        const data = await res.json();
+        chatEnabled = data.chat_enabled;
+        updateChatUI();
+        alert(data.message);
+    } catch (e) {
+        console.error('Failed to toggle chat:', e);
+        alert('Failed to toggle chat. Please try again.');
+    }
+}
+
+function updateChatUI() {
+    const statusText = document.getElementById('chatStatusText');
+    const toggleBtn = document.getElementById('toggleChatBtn');
+
+    if (chatEnabled) {
+        statusText.textContent = 'Chat is enabled';
+        statusText.className = 'text-sm font-medium text-green-600';
+        toggleBtn.textContent = 'Disable Chat';
+        toggleBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200 transition-colors';
+    } else {
+        statusText.textContent = 'Chat is disabled';
+        statusText.className = 'text-sm font-medium text-red-600';
+        toggleBtn.textContent = 'Enable Chat';
+        toggleBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors';
+    }
+}
+
+// Load initial status
+loadChatStatus();
+</script>
+@endif
 @endsection

@@ -15,6 +15,22 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if(auth()->user()->isAdmin())
+                        @php
+                            $pendingCount = \App\Models\Conversation::pending()
+                                ->where('partner_id', auth()->id())
+                                ->count();
+                        @endphp
+                        <x-nav-link :href="route('conversations.index')" :active="request()->routeIs('conversations.index')">
+                            Chat Requests
+                            @if($pendingCount > 0)
+                                <span class="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                                    {{ $pendingCount }}
+                                </span>
+                            @endif
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

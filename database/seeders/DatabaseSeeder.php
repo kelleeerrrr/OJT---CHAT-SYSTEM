@@ -12,7 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // You can add seeders here
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            SettingSeeder::class,
+            AdminSeeder::class,
+        ]);
     }
 }

@@ -18,6 +18,7 @@ class Message extends Model
         'has_bad_words',
         'is_deleted',
         'read_at',
+        'conversation_id',
     ];
 
     protected $casts = [
@@ -40,6 +41,11 @@ class Message extends Model
     public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function conversation(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class);
     }
 
     public static function conversationBetween(int $userA, int $userB)

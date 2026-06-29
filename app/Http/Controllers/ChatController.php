@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
 use App\Http\Requests\SendMessageRequest;
+use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\BadWordFilter;
 use App\Services\MessageSanitizer;
@@ -33,6 +35,12 @@ class ChatController extends Controller
     {
         $this->abortIfDenied();
 
+        $conversation = Conversation::findBetween(Auth::id(), $user->id);
+        $messageCount = Message::conversationBetween(Auth::id(), $user->id)->count();
+
+        // Always allow showing input - backend will enforce approval rules
+        $conversationStatus = 'accepted';
+
         $messages = Message::conversationBetween(Auth::id(), $user->id)
             ->get()
             ->map(fn ($m) => $this->formatMessage($m))
@@ -41,6 +49,8 @@ class ChatController extends Controller
         return view('chat.show', [
             'partner'  => $user,
             'messages' => $messages,
+            'conversationStatus' => $conversationStatus,
+            'messageCount' => $messageCount,
         ]);
     }
 
@@ -48,7 +58,53 @@ class ChatController extends Controller
     {
         $this->abortIfDenied();
 
+        // Check if chat is globally enabled
+        if (!Setting::isChatEnabled()) {
+            return response()->json(['error' => 'Chat is currently disabled by the administrator.'], 403);
+        }
+
         $sender = Auth::user();
+        $receiverId = $request->receiver_id;
+
+        // Get receiver to check role
+        $receiver = User::find($receiverId);
+        if (!$receiver) {
+            return response()->json(['error' => 'Receiver not found.'], 404);
+        }
+
+        // Only require approval if sender is user and receiver is admin/superadmin
+        $requiresApproval = !$sender->isAdmin() && $receiver->isAdmin();
+
+        if ($requiresApproval) {
+            // Get or create conversation
+            $conversation = Conversation::findOrCreate($sender->id, $receiverId);
+
+            // Check conversation status
+            if ($conversation->isRejected()) {
+                return response()->json(['error' => 'Your chat request has been declined.'], 403);
+            }
+
+            if ($conversation->isPending()) {
+                // Check if this is the first message
+                $messageCount = Message::where(function ($q) use ($sender, $receiverId) {
+                    $q->where('sender_id', $sender->id)
+                      ->where('receiver_id', $receiverId);
+                })->orWhere(function ($q) use ($sender, $receiverId) {
+                    $q->where('sender_id', $receiverId)
+                      ->where('receiver_id', $sender->id);
+                })->count();
+
+                if ($messageCount > 0) {
+                    return response()->json(['error' => 'Waiting for Admin approval.'], 403);
+                }
+            }
+        } else {
+            // No approval needed - create conversation as accepted if it doesn't exist
+            $conversation = Conversation::findOrCreate($sender->id, $receiverId);
+            if ($conversation->isPending()) {
+                $conversation->update(['status' => 'accepted']);
+            }
+        }
 
         $sanitized = $this->sanitizer->sanitize($request->body);
 
@@ -61,10 +117,11 @@ class ChatController extends Controller
 
         $message = Message::create([
             'sender_id'     => $sender->id,
-            'receiver_id'   => $request->receiver_id,
+            'receiver_id'   => $receiverId,
             'body'          => $filtered,
             'body_raw'      => $hasBad ? $sanitized : null,
             'has_bad_words' => $hasBad,
+            'conversation_id' => $conversation->id,
         ]);
 
         $message->load('sender:id,name', 'receiver:id,name');

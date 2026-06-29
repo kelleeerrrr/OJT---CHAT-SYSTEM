@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminChatController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -69,6 +71,30 @@ Route::middleware(['auth', 'can:manage-chat'])
 
         Route::get('/{user}/deny-log', [AdminChatController::class, 'denyLog'])
             ->name('deny-log');
+    });
+
+Route::middleware(['auth', 'can:manage-chat'])
+    ->prefix('conversations')
+    ->name('conversations.')
+    ->group(function () {
+
+        Route::get('/', [ConversationController::class, 'index'])
+            ->name('index');
+
+        Route::put('/{conversation}', [ConversationController::class, 'update'])
+            ->name('update');
+    });
+
+Route::middleware(['auth'])
+    ->prefix('settings')
+    ->name('settings.')
+    ->group(function () {
+
+        Route::post('/toggle-chat', [SettingController::class, 'toggleChat'])
+            ->name('toggle-chat');
+
+        Route::get('/status', [SettingController::class, 'getStatus'])
+            ->name('status');
     });
 
 require __DIR__ . '/auth.php';

@@ -5,7 +5,10 @@
      x-data='chatApp(
         <?php echo e(auth()->id()); ?>,
         <?php echo e($partner->id); ?>,
-        <?php echo json_encode($messages, 15, 512) ?>
+        <?php echo json_encode($messages, 15, 512) ?>,
+        "<?php echo e($conversationStatus); ?>",
+        <?php echo e($messageCount); ?>
+
      )'
      x-init="init()">
 
@@ -22,7 +25,13 @@
 
             </h1>
             <p class="text-xs text-gray-500">
-                Private Conversation
+                <?php if($conversationStatus === 'pending'): ?>
+                    <span class="text-yellow-600">Waiting for Admin approval</span>
+                <?php elseif($conversationStatus === 'rejected'): ?>
+                    <span class="text-red-600">Chat request declined</span>
+                <?php else: ?>
+                    Private Conversation
+                <?php endif; ?>
             </p>
         </div>
     </div>
@@ -91,24 +100,26 @@
 </div>
 
 <script>
-// CACHE BUST: v2.3 - Force new build
-function chatApp(currentUserId, partnerId, initialMessages = []) {
-    // Version 2.3 - Fixed Alpine sending property and cache issues
+// CACHE BUST: v2.6 - Force new build
+function chatApp(currentUserId, partnerId, initialMessages = [], conversationStatus = 'accepted', messageCount = 0) {
+    // Version 2.6 - Simplified input visibility
 
     return {
 
         currentUserId,
         partnerId,
+        conversationStatus,
+        messageCount,
 
         messages: Array.isArray(initialMessages) ? initialMessages : [],
         draft: '',
         sending: false,
         sendingCount: 0,
         _initialized: false,
-        _version: '2.4', // Force cache bust
+        _version: '2.6', // Force cache bust
         _cacheBust: Date.now(), // Force new hash
         _debugMode: true, // Force new hash
-        _forceNewHash: 'CACHE_BUST_V2_4_' + Math.random(), // Force new hash
+        _forceNewHash: 'CACHE_BUST_V2_6_' + Math.random(), // Force new hash
 
         // =====================
         // INIT

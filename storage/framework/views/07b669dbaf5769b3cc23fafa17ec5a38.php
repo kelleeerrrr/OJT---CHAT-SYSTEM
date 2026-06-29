@@ -53,6 +53,41 @@
 <?php $component = $__componentOriginalc295f12dca9d42f28a259237a5724830; ?>
 <?php unset($__componentOriginalc295f12dca9d42f28a259237a5724830); ?>
 <?php endif; ?>
+
+                    <?php if(auth()->user()->isAdmin()): ?>
+                        <?php
+                            $pendingCount = \App\Models\Conversation::pending()
+                                ->where('partner_id', auth()->id())
+                                ->count();
+                        ?>
+                        <?php if (isset($component)) { $__componentOriginalc295f12dca9d42f28a259237a5724830 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalc295f12dca9d42f28a259237a5724830 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.nav-link','data' => ['href' => route('conversations.index'),'active' => request()->routeIs('conversations.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('nav-link'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('conversations.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('conversations.index'))]); ?>
+                            Chat Requests
+                            <?php if($pendingCount > 0): ?>
+                                <span class="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                                    <?php echo e($pendingCount); ?>
+
+                                </span>
+                            <?php endif; ?>
+                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalc295f12dca9d42f28a259237a5724830)): ?>
+<?php $attributes = $__attributesOriginalc295f12dca9d42f28a259237a5724830; ?>
+<?php unset($__attributesOriginalc295f12dca9d42f28a259237a5724830); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc295f12dca9d42f28a259237a5724830)): ?>
+<?php $component = $__componentOriginalc295f12dca9d42f28a259237a5724830; ?>
+<?php unset($__componentOriginalc295f12dca9d42f28a259237a5724830); ?>
+<?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
 

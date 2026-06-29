@@ -8,15 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Add role column to users table
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['user', 'admin', 'superadmin'])->default('user')->after('email');
-            $table->boolean('is_chat_denied')->default(false)->after('role');
-            $table->timestamp('chat_denied_at')->nullable()->after('is_chat_denied');
-            $table->unsignedBigInteger('chat_denied_by')->nullable()->after('chat_denied_at');
-            $table->foreign('chat_denied_by')->references('id')->on('users')->nullOnDelete();
-        });
-
         // Messages table
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
@@ -55,10 +46,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('chat_deny_logs');
         Schema::dropIfExists('messages');
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['chat_denied_by']);
-            $table->dropColumn(['role', 'is_chat_denied', 'chat_denied_at', 'chat_denied_by']);
-        });
     }
 };
