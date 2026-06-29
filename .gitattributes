@@ -1,0 +1,9 @@
+* text=auto
+*.css text linguist-language=css
+*.html text linguist-language=html
+*.js text linguist-language=javascript
+*.json text linguist-language=json
+*.md text linguist-language=markdown
+*.php text linguist-language=php
+*.txt text linguist-language=text
+*.xml text linguist-language=xml
