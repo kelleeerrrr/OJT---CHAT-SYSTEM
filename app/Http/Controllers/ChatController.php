@@ -33,7 +33,7 @@ class ChatController extends Controller
 
     public function show(User $user)
     {
-        $this->abortIfDenied();
+        $this->abortIfDeniedAgainst($user);
 
         $conversation = Conversation::findBetween(Auth::id(), $user->id);
         $messageCount = Message::conversationBetween(Auth::id(), $user->id)->count();
@@ -56,8 +56,6 @@ class ChatController extends Controller
 
     public function send(SendMessageRequest $request): JsonResponse
     {
-        $this->abortIfDenied();
-
         // Check if chat is globally enabled
         if (!Setting::isChatEnabled()) {
             return response()->json(['error' => 'Chat is currently disabled by the administrator.'], 403);
@@ -71,6 +69,8 @@ class ChatController extends Controller
         if (!$receiver) {
             return response()->json(['error' => 'Receiver not found.'], 404);
         }
+
+        $this->abortIfDeniedAgainst($receiver);
 
         // Only require approval if sender is user and receiver is admin/superadmin
         $requiresApproval = !$sender->isAdmin() && $receiver->isAdmin();
@@ -138,7 +138,7 @@ class ChatController extends Controller
 
     public function history(Request $request, User $user): JsonResponse
     {
-        $this->abortIfDenied();
+        $this->abortIfDeniedAgainst($user);
 
         $messages = Message::conversationBetween(Auth::id(), $user->id)
             ->latest('id')
@@ -156,6 +156,8 @@ class ChatController extends Controller
 
     public function markRead(User $user): JsonResponse
     {
+        $this->abortIfDeniedAgainst($user);
+
         Message::where('sender_id', $user->id)
             ->where('receiver_id', Auth::id())
             ->whereNull('read_at')
@@ -164,9 +166,9 @@ class ChatController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    private function abortIfDenied(): void
+    private function abortIfDeniedAgainst(User $partner): void
     {
-        if (Auth::user()->isChatDenied()) {
+        if (Auth::user()->isChatDenied() && ! $partner->isSuperAdmin()) {
             abort(403);
         }
     }

@@ -6,6 +6,12 @@
 <div class="max-w-4xl mx-auto py-8 px-4">
     <h1 class="text-xl font-semibold text-gray-800 mb-6">Admin - Chat Management</h1>
 
+    @if(session('status'))
+        <div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @if(auth()->user()->isSuperAdmin())
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
         <div class="flex items-center justify-between">
@@ -114,10 +120,8 @@ async function toggleChat() {
         const data = await res.json();
         chatEnabled = data.chat_enabled;
         updateChatUI();
-        alert(data.message);
     } catch (e) {
         console.error('Failed to toggle chat:', e);
-        alert('Failed to toggle chat. Please try again.');
     }
 }
 
