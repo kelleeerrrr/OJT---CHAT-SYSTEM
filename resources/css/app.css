@@ -1,3 +1,10 @@
+@import "animate.css/animate.min.css";
+@import "../../public/assets/css/custom.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}

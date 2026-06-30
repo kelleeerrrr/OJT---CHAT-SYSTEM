@@ -1,0 +1,125 @@
+/* Custom CSS for ICT Template styling - Tailwind compatible */
+
+/* Card shadow matching template */
+.card-shadow {
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+/* Main content area with header offset */
+.main {
+    margin-top: 56px;
+    padding: 16px 24px;
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding: 16px;
+    }
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 260px;
+    background-color: #373737;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-260px);
+}
+
+/* Header styles */
+.header {
+    height: 56px;
+    background-color: #eb1c24;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+}
+
+/* Page title section */
+.pagetitle {
+    margin-bottom: 24px;
+}
+
+.pagetitle h1 {
+    color: #373737;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Card title styling */
+.card-title {
+    color: #eb1c24;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Breadcrumb separator override */
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #eb1c24;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.back-to-top.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background-color: #eb1c34;
+}
+
+/* Dark mode styles */
+.dark .sidebar {
+    background-color: #1e1e1e;
+}
+
+.dark .header {
+    background-color: #1c1c1c;
+}
+
+.dark .main {
+    background-color: #121212;
+}
+
+.dark .card {
+    background-color: #1e1e1e;
+}
+
+.dark .pagetitle h1 {
+    color: #ffffff;
+}
+
+.dark .card-title {
+    color: #eb1c24;
+}
