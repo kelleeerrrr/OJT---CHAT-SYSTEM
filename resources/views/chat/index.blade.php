@@ -32,6 +32,36 @@
     </div>
 @endif
 
+<form method="GET" action="{{ route('chat.index') }}" class="mb-6">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
+        <div class="flex-1">
+            <label for="user-search" class="block text-sm font-medium text-gray-700 mb-2">
+                Search users
+            </label>
+            <input
+                id="user-search"
+                type="search"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by name, email, or role"
+                class="w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            >
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
+                Search
+            </button>
+
+            @if(request()->filled('search'))
+                <a href="{{ route('chat.index') }}" class="px-5 py-2.5 rounded-xl bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition">
+                    Clear
+                </a>
+            @endif
+        </div>
+    </div>
+</form>
+
 @if(auth()->user()->isChatDenied())
     <div class="mb-6 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-xl">
         Your account has been restricted. Contact the super admin to restore access.
@@ -97,7 +127,7 @@
     @empty
 
         <div class="p-10 text-center text-gray-500">
-            No other registered users found.
+            {{ request()->filled('search') ? 'No users matched your search.' : 'No other registered users found.' }}
         </div>
 
     @endforelse

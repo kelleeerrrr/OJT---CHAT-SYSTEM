@@ -52,6 +52,20 @@ class ManageUsersTest extends TestCase
         ]);
     }
 
+    public function test_chat_dashboard_can_search_users_by_name_email_or_role(): void
+    {
+        $currentUser = $this->createUser(['name' => 'Current User']);
+        $matchedUser = $this->createUser(['name' => 'Search Target', 'email' => 'target@example.com', 'role' => 'admin']);
+        $otherUser = $this->createUser(['name' => 'Other User', 'email' => 'other@example.com', 'role' => 'user']);
+
+        $response = $this->actingAs($currentUser)->get(route('chat.index', ['search' => 'target']));
+
+        $response->assertOk();
+        $response->assertSee($matchedUser->name);
+        $response->assertSee($matchedUser->email);
+        $response->assertDontSee($otherUser->name);
+    }
+
     public function test_admin_cannot_access_manage_users_page(): void
     {
         $admin = $this->createUser(['role' => 'admin']);
