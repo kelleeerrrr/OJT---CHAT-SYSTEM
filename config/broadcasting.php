@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'reverb',
+    'default' => env('BROADCAST_CONNECTION', 'pusher'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,20 +28,23 @@ return [
 
     'connections' => [
 
-        'reverb' => [
+        'pusher' => [
             'driver' => 'pusher',
-            'key' => env('REVERB_APP_KEY'),
-            'secret' => env('REVERB_APP_SECRET'),
-            'app_id' => env('REVERB_APP_ID'),
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'host' => env('REVERB_HOST', '127.0.0.1'),
-                'port' => env('REVERB_PORT', 9000),
-                'scheme' => env('REVERB_SCHEME', 'http'),
-                'encrypted' => false,
-                'use_tls' => false,
+                'cluster' => env('PUSHER_APP_CLUSTER', 'mt1'),
+                'useTLS' => false,
+                'host' => env('PUSHER_HOST') ?: 'api-' . env('PUSHER_APP_CLUSTER', 'mt1') . '.pusher.com',
+                'port' => env('PUSHER_PORT', 80),
+                'scheme' => env('PUSHER_SCHEME', 'http'),
+                'curl_options' => [
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_CONNECTTIMEOUT => 10,
+                ],
             ],
         ],
-
 
         'ably' => [
             'driver' => 'ably',
