@@ -34,7 +34,7 @@
 
 @if(auth()->user()->isChatDenied())
     <div class="mb-6 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-xl">
-        Your chat access has been suspended by an administrator.
+        Your account has been restricted. Contact the super admin to restore access.
     </div>
 @endif
 
@@ -47,9 +47,16 @@
     </div>
 
     @forelse($users as $user)
+        @php
+            $canChatWithUser = ! auth()->user()->isChatDenied() || $user->isSuperAdmin();
+        @endphp
 
+        @if($canChatWithUser)
         <a href="{{ route('chat.show', $user) }}"
            class="flex items-center justify-between px-6 py-4 border-b hover:bg-gray-50 transition">
+        @else
+        <div class="flex items-center justify-between px-6 py-4 border-b bg-gray-50 opacity-70 cursor-not-allowed">
+        @endif
 
             <div class="flex items-center gap-4">
 
@@ -70,12 +77,22 @@
             </div>
 
             <div>
-                <span class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg">
-                    Chat
-                </span>
+                @if($canChatWithUser)
+                    <span class="px-4 py-2 {{ $user->isSuperAdmin() && auth()->user()->isChatDenied() ? 'bg-amber-600' : 'bg-indigo-600' }} text-white text-sm rounded-lg">
+                        {{ $user->isSuperAdmin() && auth()->user()->isChatDenied() ? 'Contact Super Admin' : 'Chat' }}
+                    </span>
+                @else
+                    <span class="px-4 py-2 bg-gray-300 text-gray-600 text-sm rounded-lg">
+                        Restricted
+                    </span>
+                @endif
             </div>
 
+        @if($canChatWithUser)
         </a>
+        @else
+        </div>
+        @endif
 
     @empty
 
@@ -88,4 +105,5 @@
 </div>
 
 </div>
+
 @endsection

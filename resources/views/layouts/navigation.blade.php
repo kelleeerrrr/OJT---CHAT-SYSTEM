@@ -31,6 +31,12 @@
                             @endif
                         </x-nav-link>
                     @endif
+
+                    @if(auth()->user()->isSuperAdmin())
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                            Manage Users
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -86,6 +92,18 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if(auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('conversations.index')" :active="request()->routeIs('conversations.index')">
+                    Chat Requests
+                </x-responsive-nav-link>
+            @endif
+
+            @if(auth()->user()->isSuperAdmin())
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                    Manage Users
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

@@ -81,6 +81,15 @@ Route::middleware(['auth', 'can:manage-chat'])
             ->name('deny-log');
     });
 
+Route::middleware(['auth', 'can:manage-users'])
+    ->prefix('admin/manage-users')
+    ->name('admin.users.')
+    ->group(function () {
+
+        Route::get('/', [AdminChatController::class, 'manageUsers'])
+            ->name('index');
+    });
+
 Route::middleware(['auth', 'can:manage-chat'])
     ->prefix('conversations')
     ->name('conversations.')

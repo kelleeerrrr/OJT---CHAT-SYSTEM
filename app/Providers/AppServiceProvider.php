@@ -27,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->isAdmin();
         });
 
+        Gate::define('manage-users', function (User $user) {
+            return $user->isSuperAdmin();
+        });
+
         /**
          * Gate: deny-user-chat
          * Admins can deny regular users; only superadmin can deny other admins.
