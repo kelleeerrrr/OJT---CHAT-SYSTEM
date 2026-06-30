@@ -40,7 +40,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Laravel\Reverb\ReverbServiceProvider::class,
         App\Providers\AppServiceProvider::class,
     ],
     'aliases' => [
