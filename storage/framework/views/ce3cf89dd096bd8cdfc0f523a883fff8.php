@@ -202,6 +202,13 @@
 <?php unset($__componentOriginald411d1792bd6cc877d687758b753742c); ?>
 <?php endif; ?>
         </div>
+
+        <div class="mt-4 text-center text-sm text-gray-600">
+            <span>No account yet?</span>
+            <a href="<?php echo e(route('register')); ?>" class="font-medium text-indigo-600 hover:text-indigo-500 underline ms-1">
+                Register here
+            </a>
+        </div>
     </form>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
