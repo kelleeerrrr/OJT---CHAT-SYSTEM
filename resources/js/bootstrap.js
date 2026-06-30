@@ -14,13 +14,15 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
 
-    forceTLS: true,
-
-    enabledTransports: ['ws', 'wss'],
+    forceTLS: true, // REQUIRED for HTTPS / Pusher cloud
 
     wsHost: `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
     wsPort: 443,
     wssPort: 443,
 
+    enabledTransports: ['ws', 'wss'],
+
     disableStats: true,
+
+    encrypted: true
 });
