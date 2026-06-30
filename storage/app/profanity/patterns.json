@@ -1,0 +1,82 @@
+[
+    {
+        "name": "fuck",
+        "regex": "f[\\W_]*u+[\\W_]*c+[\\W_]*k+"
+    },
+    {
+        "name": "shit",
+        "regex": "s[\\W_]*h[\\W_]*[i1!l|]+[\\W_]*t+"
+    },
+    {
+        "name": "bitch",
+        "regex": "b[\\W_]*[i1!]+[\\W_]*t+[\\W_]*c+[\\W_]*h+"
+    },
+    {
+        "name": "asshole",
+        "regex": "a+[\\W_]*s+[\\W_]*s+[\\W_]*h+[\\W_]*o+[\\W_]*l+[\\W_]*e+"
+    },
+    {
+        "name": "motherfucker",
+        "regex": "m+[\\W_]*o+[\\W_]*t+[\\W_]*h+[\\W_]*e+[\\W_]*r+[\\W_]*f+[\\W_]*u+[\\W_]*c+[\\W_]*k+[\\W_]*e+[\\W_]*r+"
+    },
+    {
+        "name": "puta",
+        "regex": "p+[\\W_]*[uv]+[\\W_]*t+[\\W_]*[@a4]+"
+    },
+    {
+        "name": "putangina",
+        "regex": "p+[\\W_]*[uv]+[\\W_]*t+[\\W_]*[@a4]+[\\W_]*n+[\\W_]*g+[\\W_]*[i1!]+[\\W_]*n+[\\W_]*[@a4]+"
+    },
+    {
+        "name": "gago",
+        "regex": "g+[\\W_]*[@a4]+[\\W_]*g+[\\W_]*[o0]+"
+    },
+    {
+        "name": "ulol",
+        "regex": "[uv]+[\\W_]*l+[\\W_]*[o0]+[\\W_]*l+"
+    },
+    {
+        "name": "tanga",
+        "regex": "t+[\\W_]*[@a4]+[\\W_]*n+[\\W_]*g+[\\W_]*[@a4]+"
+    },
+    {
+        "name": "bobo",
+        "regex": "b+[\\W_]*[o0]+[\\W_]*b+[\\W_]*[o0]+"
+    },
+    {
+        "name": "kupal",
+        "regex": "k+[\\W_]*[uv]+[\\W_]*p+[\\W_]*[@a4]+[\\W_]*l+"
+    },
+    {
+        "name": "kantot",
+        "regex": "k+[\\W_]*[@a4]+[\\W_]*n+[\\W_]*t+[\\W_]*[o0]+[\\W_]*t+"
+    },
+    {
+        "name": "pakyu",
+        "regex": "p+[\\W_]*[@a4]+[\\W_]*k+[\\W_]*y+[\\W_]*[uv]+"
+    },
+    {
+        "name": "bwisit",
+        "regex": "b+[\\W_]*w+[\\W_]*[i1!]+[\\W_]*s+[\\W_]*[i1!]+[\\W_]*t+"
+    },
+    {
+        "name": "punyeta",
+        "regex": "p+[\\W_]*[uv]+[\\W_]*n+[\\W_]*y+[\\W_]*e+[\\W_]*t+[\\W_]*[@a4]+"
+    },
+    {
+        "name": "tarantado",
+        "regex": "t+[\\W_]*[@a4]+[\\W_]*r+[\\W_]*[@a4]+[\\W_]*n+[\\W_]*t+[\\W_]*[@a4]+[\\W_]*d+[\\W_]*[o0]+"
+    },
+    {
+        "name": "hindot",
+        "regex": "h+[\\W_]*[i1!]+[\\W_]*n+[\\W_]*d+[\\W_]*[o0]+[\\W_]*t+"
+    },
+    {
+        "name": "burat",
+        "regex": "b+[\\W_]*[uv]+[\\W_]*r+[\\W_]*[@a4]+[\\W_]*t+"
+    },
+    {
+        "name": "pekpek",
+        "regex": "p+[\\W_]*e+[\\W_]*k+[\\W_]*p+[\\W_]*e+[\\W_]*k+"
+    }
+]
