@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(\App\Models\User::where('id', '!=', auth()->id())->get() as $user)
+                @foreach($users as $user)
                 <tr class="border-b border-gray-100">
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-2">

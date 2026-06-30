@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +48,13 @@ class User extends Authenticatable
     public function isChatDenied(): bool
     {
         return (bool) $this->is_chat_denied;
+    }
+
+    public function scopeOrderedByRolePriority(Builder $query): Builder
+    {
+        return $query
+            ->orderByRaw("CASE WHEN role = 'superadmin' THEN 0 WHEN role = 'admin' THEN 1 WHEN role = 'user' THEN 2 ELSE 3 END")
+            ->orderBy('name');
     }
 
     // ── Relationships ────────────────────────────────────────────────────────

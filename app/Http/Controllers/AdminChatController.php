@@ -27,8 +27,8 @@ class AdminChatController extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'user')
-            ->orderBy('name')
+        $users = User::where('id', '!=', auth()->id())
+            ->orderedByRolePriority()
             ->paginate(25);
 
         return view('admin.chat.index', compact('users'));
@@ -39,9 +39,7 @@ class AdminChatController extends Controller
      */
     public function manageUsers()
     {
-        $users = User::where('role', '!=', 'superadmin')
-            ->orderBy('role')
-            ->orderBy('name')
+        $users = User::orderedByRolePriority()
             ->paginate(25);
 
         return view('admin.chat.manage-users', compact('users'));

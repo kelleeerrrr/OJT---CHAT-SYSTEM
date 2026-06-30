@@ -24,8 +24,7 @@ class ChatController extends Controller
     public function index()
     {
         $users = User::where('id', '!=', Auth::id())
-            ->select('id', 'name', 'email')
-            ->orderBy('name')
+            ->orderedByRolePriority()
             ->get();
 
         return view('chat.index', compact('users'));

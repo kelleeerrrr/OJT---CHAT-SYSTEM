@@ -1,0 +1,20 @@
+[2026-06-30 05:30:16] production.ERROR: Pusher\Pusher::__construct(): Argument #1 ($auth_key) must be of type string, null given, called in C:\Users\Chester Calog\OneDrive\ドキュメント\GitHub\OJT---CHAT-SYSTEM\vendor\laravel\framework\src\Illuminate\Broadcasting\BroadcastManager.php on line 341 {"exception":"[object] (TypeError(code: 0): Pusher\\Pusher::__construct(): Argument #1 ($auth_key) must be of type string, null given, called in C:\\Users\\Chester Calog\\OneDrive\\ドキュメント\\GitHub\\OJT---CHAT-SYSTEM\\vendor\\laravel\\framework\\src\\Illuminate\\Broadcasting\\BroadcastManager.php on line 341 at C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/pusher/pusher-php-server/src/Pusher.php:63)
+[stacktrace]
+#0 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php(341): Pusher/Pusher->__construct(NULL, NULL, NULL, Array, Object(GuzzleHttp/Client))
+#1 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php(319): Illuminate/Broadcasting/BroadcastManager->pusher(Array)
+#2 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php(286): Illuminate/Broadcasting/BroadcastManager->createPusherDriver(Array)
+#3 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php(257): Illuminate/Broadcasting/BroadcastManager->resolve('pusher')
+#4 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php(246): Illuminate/Broadcasting/BroadcastManager->get('pusher')
+#5 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php(523): Illuminate/Broadcasting/BroadcastManager->driver()
+#6 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(361): Illuminate/Broadcasting/BroadcastManager->__call('channel', Array)
+#7 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/routes/channels.php(12): Illuminate/Support/Facades/Facade::__callStatic('channel', Array)
+#8 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Configuration/ApplicationBuilder.php(132): require('C://Users//Cheste...')
+#9 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1194): Illuminate/Foundation/Configuration/ApplicationBuilder->{closure:Illuminate/Foundation/Configuration/ApplicationBuilder::withBroadcasting():128}(Object(Illuminate/Foundation/Application))
+#10 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1137): Illuminate/Foundation/Application->fireAppCallbacks(Array)
+#11 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/BootProviders.php(17): Illuminate/Foundation/Application->boot()
+#12 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/BootProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#13 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#14 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#15 C:/Users/Chester Calog/OneDrive/ドキュメント/GitHub/OJT---CHAT-SYSTEM/artisan(34): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#16 {main}
+"} 
