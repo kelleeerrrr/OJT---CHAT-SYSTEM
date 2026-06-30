@@ -45,7 +45,7 @@ class MessageSent implements ShouldBroadcastNow
     }
 
     /**
-     * Data sent to Reverb.
+     * Data sent to Pusher.
      */
     public function broadcastWith(): array
     {

@@ -128,13 +128,8 @@ class ChatController extends Controller
 
         $tempId = $request->input('temp_id');
 
-        // Broadcast the message using Reverb connection
-        try {
-            broadcast(new MessageSent($message, $sender, $tempId))->toOthers();
-        } catch (\Exception $e) {
-            // Log broadcast error but don't fail the request
-            \Log::error('Broadcast failed', ['error' => $e->getMessage()]);
-        }
+        // Broadcast the message using Pusher
+        broadcast(new MessageSent($message, $sender, $tempId))->toOthers();
 
         return response()->json([
             'message' => $this->formatMessage($message, $tempId),
