@@ -3,7 +3,7 @@
 @section('title', 'Chat with ' . $partner->name)
 
 @section('content')
-<div class="flex flex-col h-screen bg-gray-100"
+<div class="flex flex-col chat-room-container bg-gray-100"
      x-data='chatApp(
         {{ auth()->id() }},
         {{ $partner->id }},

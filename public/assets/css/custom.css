@@ -34,6 +34,32 @@
     transform: translateX(-260px);
 }
 
+/* Mobile sidebar behavior */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-260px);
+    }
+
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+}
+
+/* Desktop sidebar behavior */
+@media (min-width: 769px) {
+    .main {
+        margin-left: 260px;
+    }
+
+    .main.sidebar-collapsed {
+        margin-left: 0;
+    }
+}
+
 /* Header styles */
 .header {
     height: 56px;
@@ -122,4 +148,19 @@
 
 .dark .card-title {
     color: #eb1c24;
+}
+
+/* Chat room layout fix for global layout compatibility */
+.chat-room-container {
+    height: calc(100vh - 56px);
+    margin-top: -16px;
+    margin-left: -24px;
+    margin-right: -24px;
+}
+
+@media (max-width: 768px) {
+    .chat-room-container {
+        margin-left: -16px;
+        margin-right: -16px;
+    }
 }

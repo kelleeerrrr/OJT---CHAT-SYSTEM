@@ -38,11 +38,33 @@ window.addEventListener('load', function () {
         on('click', '.sidebar-toggle', function (e) {
             e.preventDefault();
             const sidebar = select('.sidebar');
+            const main = select('.main');
+            
             if (sidebar) {
-                sidebar.classList.toggle('collapsed');
+                // Check if mobile or desktop
+                if (window.innerWidth <= 768) {
+                    // Mobile: toggle mobile-open class
+                    sidebar.classList.toggle('mobile-open');
+                } else {
+                    // Desktop: toggle collapsed class
+                    sidebar.classList.toggle('collapsed');
+                    if (main) {
+                        main.classList.toggle('sidebar-collapsed');
+                    }
+                }
             }
         })
     }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        const sidebar = select('.sidebar');
+        const toggle = select('.sidebar-toggle');
+        
+        if (window.innerWidth <= 768 && sidebar && !sidebar.contains(e.target) && !toggle.contains(e.target)) {
+            sidebar.classList.remove('mobile-open');
+        }
+    });
 
     /**
      * Back to top button
