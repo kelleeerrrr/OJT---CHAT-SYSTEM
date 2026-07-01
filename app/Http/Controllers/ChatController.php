@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChatRequestCountUpdated;
 use App\Events\MessageSent;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\Conversation;
@@ -82,6 +83,7 @@ class ChatController extends Controller
 
         // Only require approval if sender is user and receiver is admin/superadmin
         $requiresApproval = !$sender->isAdmin() && $receiver->isAdmin();
+        $shouldBroadcastRequestCount = false;
 
         if ($requiresApproval) {
             // Get or create conversation
@@ -105,6 +107,8 @@ class ChatController extends Controller
                 if ($messageCount > 0) {
                     return response()->json(['error' => 'Waiting for Admin approval.'], 403);
                 }
+
+                $shouldBroadcastRequestCount = true;
             }
         } else {
             // No approval needed - create conversation as accepted if it doesn't exist
@@ -138,6 +142,10 @@ class ChatController extends Controller
 
         // Broadcast the message using Pusher
         broadcast(new MessageSent($message, $sender, $tempId))->toOthers();
+
+        if ($shouldBroadcastRequestCount) {
+            broadcast(new ChatRequestCountUpdated($receiver->id))->toOthers();
+        }
 
         return response()->json([
             'message' => $this->formatMessage($message, $tempId),

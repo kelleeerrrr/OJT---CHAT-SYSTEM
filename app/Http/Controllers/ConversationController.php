@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChatRequestCountUpdated;
 use App\Events\ConversationStatusChanged;
 use App\Http\Requests\ConversationRequest;
 use App\Models\Conversation;
@@ -62,6 +63,7 @@ class ConversationController extends Controller
             ]);
 
             broadcast(new ConversationStatusChanged($conversation, $action))->toOthers();
+            broadcast(new ChatRequestCountUpdated((int) $conversation->partner_id))->toOthers();
 
             return response()->json([
                 'status' => $conversation->status,
@@ -76,6 +78,7 @@ class ConversationController extends Controller
             ]);
 
             broadcast(new ConversationStatusChanged($conversation, $action))->toOthers();
+            broadcast(new ChatRequestCountUpdated((int) $conversation->partner_id))->toOthers();
 
             return response()->json([
                 'status' => $conversation->status,

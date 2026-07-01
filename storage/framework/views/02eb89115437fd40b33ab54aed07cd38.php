@@ -1,4 +1,14 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<?php
+    $initialPendingCount = 0;
+
+    if (auth()->check() && auth()->user()->isAdmin()) {
+        $initialPendingCount = \App\Models\Conversation::pending()
+            ->where('partner_id', auth()->id())
+            ->count();
+    }
+?>
+
+<nav x-data="{ open: false, pendingCount: <?php echo e($initialPendingCount); ?> }" x-init="initChatRequestBadge($data)" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -55,11 +65,6 @@
 <?php endif; ?>
 
                     <?php if(auth()->user()->isAdmin()): ?>
-                        <?php
-                            $pendingCount = \App\Models\Conversation::pending()
-                                ->where('partner_id', auth()->id())
-                                ->count();
-                        ?>
                         <?php if (isset($component)) { $__componentOriginalc295f12dca9d42f28a259237a5724830 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalc295f12dca9d42f28a259237a5724830 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.nav-link','data' => ['href' => route('conversations.index'),'active' => request()->routeIs('conversations.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -71,12 +76,11 @@
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('conversations.index')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('conversations.index'))]); ?>
                             Chat Requests
-                            <?php if($pendingCount > 0): ?>
+                            <template x-if="pendingCount > 0">
                                 <span class="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
-                                    <?php echo e($pendingCount); ?>
-
+                                    <span x-text="pendingCount"></span>
                                 </span>
-                            <?php endif; ?>
+                            </template>
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalc295f12dca9d42f28a259237a5724830)): ?>
@@ -356,4 +360,24 @@
         </div>
     </div>
 </nav>
+
+<?php if(auth()->check() && auth()->user()->isAdmin()): ?>
+<script>
+function initChatRequestBadge(component) {
+    const subscribe = () => {
+        if (!window.Echo) {
+            setTimeout(subscribe, 300);
+            return;
+        }
+
+        window.Echo.private('user.<?php echo e(auth()->id()); ?>.notifications')
+            .listen('.chat.request.count.updated', (event) => {
+                component.pendingCount = Number(event?.pending_count ?? 0);
+            });
+    };
+
+    subscribe();
+}
+</script>
+<?php endif; ?>
 <?php /**PATH C:\Users\Chester Calog\OneDrive\ドキュメント\GitHub\OJT---CHAT-SYSTEM\resources\views/layouts/navigation.blade.php ENDPATH**/ ?>

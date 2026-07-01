@@ -1,4 +1,14 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+@php
+    $initialPendingCount = 0;
+
+    if (auth()->check() && auth()->user()->isAdmin()) {
+        $initialPendingCount = \App\Models\Conversation::pending()
+            ->where('partner_id', auth()->id())
+            ->count();
+    }
+@endphp
+
+<nav x-data="{ open: false, pendingCount: {{ $initialPendingCount }} }" x-init="initChatRequestBadge($data)" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -17,18 +27,13 @@
                     </x-nav-link>
 
                     @if(auth()->user()->isAdmin())
-                        @php
-                            $pendingCount = \App\Models\Conversation::pending()
-                                ->where('partner_id', auth()->id())
-                                ->count();
-                        @endphp
                         <x-nav-link :href="route('conversations.index')" :active="request()->routeIs('conversations.index')">
                             Chat Requests
-                            @if($pendingCount > 0)
+                            <template x-if="pendingCount > 0">
                                 <span class="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
-                                    {{ $pendingCount }}
+                                    <span x-text="pendingCount"></span>
                                 </span>
-                            @endif
+                            </template>
                         </x-nav-link>
                     @endif
 
@@ -132,3 +137,23 @@
         </div>
     </div>
 </nav>
+
+@if(auth()->check() && auth()->user()->isAdmin())
+<script>
+function initChatRequestBadge(component) {
+    const subscribe = () => {
+        if (!window.Echo) {
+            setTimeout(subscribe, 300);
+            return;
+        }
+
+        window.Echo.private('user.{{ auth()->id() }}.notifications')
+            .listen('.chat.request.count.updated', (event) => {
+                component.pendingCount = Number(event?.pending_count ?? 0);
+            });
+    };
+
+    subscribe();
+}
+</script>
+@endif
