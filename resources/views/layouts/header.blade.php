@@ -12,40 +12,6 @@
         </a>
     </div>
 
-    <!-- Right Side Navigation -->
-    <div class="flex items-center gap-4">
-        <!-- Dashboard Link (Desktop) -->
-        <a href="{{ route('dashboard') }}" 
-           class="hidden sm:block text-white hover:text-gray-200 transition {{ request()->routeIs('dashboard') ? 'font-semibold' : '' }}">
-            Dashboard
-        </a>
-
-        <!-- Chat Requests (Admin only) -->
-        @if(auth()->user()->isAdmin())
-            @php
-                $pendingCount = \App\Models\Conversation::pending()
-                    ->where('partner_id', auth()->id())
-                    ->count();
-            @endphp
-            <a href="{{ route('conversations.index') }}" 
-               class="hidden sm:flex items-center gap-2 text-white hover:text-gray-200 transition {{ request()->routeIs('conversations.index') ? 'font-semibold' : '' }}">
-                Chat Requests
-                @if($pendingCount > 0)
-                    <span class="bg-accent text-white text-xs px-2 py-0.5 rounded-full">
-                        {{ $pendingCount }}
-                    </span>
-                @endif
-            </a>
-        @endif
-
-        <!-- Manage Users (Super Admin only) -->
-        @if(auth()->user()->isSuperAdmin())
-            <a href="{{ route('admin.users.index') }}" 
-               class="hidden sm:block text-white hover:text-gray-200 transition {{ request()->routeIs('admin.users.index') ? 'font-semibold' : '' }}">
-                Manage Users
-            </a>
-        @endif
-
         <!-- Profile Dropdown -->
         <div x-data="{ open: false }" class="relative">
             <button @click="open = !open" 
