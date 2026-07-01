@@ -216,3 +216,54 @@
 .dark .auth-card-body {
     color: #ffffff;
 }
+
+/* Dashboard styling for ICT template */
+.pagetitle {
+    margin-bottom: 24px;
+}
+
+.pagetitle h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #373737;
+    margin-bottom: 8px;
+}
+
+.section {
+    padding: 0;
+}
+
+.card {
+    border-radius: 5px;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+    background-color: white;
+    margin-bottom: 24px;
+}
+
+.card-body {
+    padding: 16px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #eb1c24;
+    margin-bottom: 16px;
+}
+
+/* Dark mode for dashboard */
+.dark .pagetitle h1 {
+    color: #ffffff;
+}
+
+.dark .card {
+    background-color: #1e1e1e;
+}
+
+.dark .card-body {
+    color: #ffffff;
+}
+
+.dark .card-title {
+    color: #eb1c24;
+}
