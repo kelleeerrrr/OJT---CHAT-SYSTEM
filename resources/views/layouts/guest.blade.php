@@ -9,7 +9,7 @@
             <div class="auth-card animate__animated animate__fadeInUp animate__fast">
                 <!-- Logo -->
                 <div class="auth-logo text-center mb-6">
-                    <a href="{{ route('home') }}">
+                    <a href="{{ route('welcome') }}">
                         <img src="{{ asset('assets/img/bsu-neu-logo.png') }}" alt="Logo" class="h-16 w-auto mx-auto">
                     </a>
                 </div>
