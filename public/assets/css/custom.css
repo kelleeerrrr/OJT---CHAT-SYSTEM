@@ -267,3 +267,78 @@
 .dark .card-title {
     color: #eb1c24;
 }
+
+/* Table styling for ICT template */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #373737;
+    background-color: #f6f9ff;
+    border-bottom: 2px solid #ebeef4;
+}
+
+.table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ebeef4;
+    color: #495057;
+}
+
+.table tbody tr:hover {
+    background-color: #f6f9ff;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Dark mode for tables */
+.dark .table thead th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border-bottom-color: #3a3a3a;
+}
+
+.dark .table tbody td {
+    color: #e0e0e0;
+    border-bottom-color: #3a3a3a;
+}
+
+.dark .table tbody tr:hover {
+    background-color: #2a2a2a;
+}
+
+/* Avatar styling */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    color: white;
+}
+
+.avatar-primary {
+    background-color: #eb1c24;
+}
+
+.avatar-success {
+    background-color: #28a745;
+}
+
+.avatar-info {
+    background-color: #0072BB;
+}
